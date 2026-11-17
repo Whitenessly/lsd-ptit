@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ôn thi Lịch sử Đảng CSVN (BAS1153) — PTIT Quiz Bank</title>
+  <meta name="description" content="Hệ thống luyện thi trắc nghiệm môn Lịch sử Đảng Cộng sản Việt Nam (BAS1153 - PTIT): tổng hợp đầy đủ câu hỏi LMS, Giáo trình PTIT và Slide 11 video bài giảng." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b91c1c'/%3E%3Cpolygon points='32,12 37.9,24.6 51.8,26.3 41.5,35.9 44.2,49.6 32,42.8 19.8,49.6 22.5,35.9 12.2,26.3 26.1,24.6' fill='%23fde047'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('lsd_ptit_theme');
+        if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <button type="button" class="brand" id="brandHomeBtn" aria-label="Về trang chủ">
+        <span class="brand-badge" aria-hidden="true">★</span>
+        <span class="brand-text">
+          <strong>Lịch sử Đảng CSVN</strong>
+          <small>PTIT · BAS1153 · 221 câu hỏi</small>
+        </span>
+      </button>
+
+      <nav class="nav-tabs" aria-label="Điều hướng chính">
+        <button type="button" class="nav-tab active" data-view="home">Trang chủ &amp; Đề thi</button>
+        <button type="button" class="nav-tab" data-view="bank">Tra cứu 221 câu</button>
+      </nav>
+
+      <div class="topbar-actions">
+        <button type="button" class="icon-btn" id="themeToggle" title="Chuyển chế độ Sáng/Tối" aria-label="Chuyển chế độ Sáng/Tối">
+          <span class="theme-icon-light">🌙</span>
+          <span class="theme-icon-dark">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-shell">
+    <!-- VIEW 1: HOME & SETUP -->
+    <section id="view-home" class="view active">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <div class="hero-pill">Hệ thống ôn tập toàn diện · Học kỳ PTIT</div>
+          <h1>Ngân hàng Trắc nghiệm <span>Lịch sử Đảng Cộng sản Việt Nam</span></h1>
+          <p>
+            Tổng hợp <strong>99 câu LMS PTIT gốc</strong> (từ 100 câu trên LMS, đã chuẩn hóa 1 câu trùng lặp) kết hợp
+            <strong>122 câu hỏi mới</strong> biên soạn sát <em>Giáo trình PTIT (2021)</em> và <em>11 video bài giảng</em> từ Chương nhập môn đến Đại hội XIII &amp; Kết luận.
+          </p>
+          <div class="hero-quick-actions">
+            <button type="button" class="btn btn-primary btn-lg" id="quickMock40Btn">
+              Thi thử 40 câu (45 phút)
+            </button>
+            <button type="button" class="btn btn-secondary btn-lg" id="quickPracticeLmsBtn">
+              Ôn 99 câu LMS gốc
+            </button>
+            <button type="button" class="btn btn-ghost btn-lg" id="quickWrongBtn" disabled>
+              Ôn câu sai (0)
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-stats-grid">
+          <div class="stat-tile">
+            <span class="stat-label">Đã làm đúng</span>
+            <strong class="stat-value" id="statMastered">0 / 221</strong>
+            <div class="mini-progress"><div class="mini-progress-fill" id="statMasteredBar" style="width:0%"></div></div>
+          </div>
+          <div class="stat-tile">
+            <span class="stat-label">Độ chính xác</span>
+            <strong class="stat-value" id="statAccuracy">—</strong>
+            <small class="stat-sub" id="statAttempts">Chưa có lượt làm</small>
+          </div>
+          <div class="stat-tile">
+            <span class="stat-label">Cần ôn lại (Sai)</span>
+            <strong class="stat-value text-danger" id="statWrongCount">0</strong>
+            <small class="stat-sub">Tự động cập nhật</small>
+          </div>
+          <div class="stat-tile">
+            <span class="stat-label">Đánh dấu câu khó</span>
+            <strong class="stat-value text-warn" id="statFlaggedCount">0</strong>
+            <small class="stat-sub">Nhấn ⭐ khi ôn bài</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-grid">
+        <!-- CONFIGURATOR -->
+        <div class="panel config-panel">
+          <div class="panel-header">
+            <h2>Thiết lập phiên học / đề thi tùy chọn</h2>
+            <span class="panel-badge">Tùy chỉnh linh hoạt</span>
+          </div>
+
+          <div class="config-group">
+            <span class="config-label">1. Chế độ làm bài</span>
+            <div class="segmented-grid cols-3" id="modeSelect">
+              <button type="button" class="seg-card active" data-mode="practice">
+                <strong>Luyện tập</strong>
+                <span>Hiện đáp án &amp; giải thích ngay</span>
+              </button>
+              <button type="button" class="seg-card" data-mode="exam">
+                <strong>Thi thử</strong>
+                <span>Tính giờ &amp; chấm điểm thang 10</span>
+              </button>
+              <button type="button" class="seg-card" data-mode="flashcard">
+                <strong>Flashcard</strong>
+                <span>Lật thẻ nhớ nhanh sự kiện</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="config-group">
+            <span class="config-label">2. Nguồn câu hỏi</span>
+            <div class="chip-row" id="sourceFilter">
+              <button type="button" class="chip active" data-source="all">Tất cả (221)</button>
+              <button type="button" class="chip" data-source="lms">LMS gốc (99)</button>
+              <button type="button" class="chip" data-source="extended">Giáo trình &amp; Video (122)</button>
+              <button type="button" class="chip" data-source="wrong">Câu từng sai (<span id="chipWrongNum">0</span>)</button>
+              <button type="button" class="chip" data-source="flagged">Đánh dấu ⭐ (<span id="chipFlagNum">0</span>)</button>
+            </div>
+          </div>
+
+          <div class="config-group">
+            <span class="config-label">3. Phạm vi chương / bài học</span>
+            <div class="chip-row" id="chapterFilter">
+              <button type="button" class="chip active" data-chapter="all">Tất cả chương</button>
+              <button type="button" class="chip" data-chapter="intro">Nhập môn (15)</button>
+              <button type="button" class="chip" data-chapter="ch1">Chương I · 1930–1945 (60)</button>
+              <button type="button" class="chip" data-chapter="ch2">Chương II · 1945–1975 (65)</button>
+              <button type="button" class="chip" data-chapter="ch3">Chương III · 1975–nay (81)</button>
+            </div>
+          </div>
+
+          <div class="config-group" id="lmsUnitGroup">
+            <label class="config-label" for="lmsUnitSelect">Hoặc chọn đúng từng bài ôn tập LMS (tùy chọn)</label>
+            <select id="lmsUnitSelect" class="select-input">
+              <option value="all">— Không giới hạn theo bài LMS cụ thể —</option>
+            </select>
+          </div>
+
+          <div class="config-row-split">
+            <div class="config-group">
+              <label class="config-label" for="countSelect">4. Số lượng câu</label>
+              <select id="countSelect" class="select-input">
+                <option value="15">15 câu</option>
+                <option value="30">30 câu</option>
+                <option value="40" selected>40 câu (Đề thi chuẩn)</option>
+                <option value="60">60 câu (Thi thử mở rộng)</option>
+                <option value="all">Toàn bộ câu khớp bộ lọc</option>
+              </select>
+            </div>
+
+            <div class="config-group">
+              <span class="config-label">Tùy chọn trộn đề</span>
+              <div class="toggle-stack">
+                <label class="switch-row" for="shuffleQuestionsToggle">
+                  <input type="checkbox" id="shuffleQuestionsToggle" checked />
+                  <span>Trộn thứ tự câu hỏi</span>
+                </label>
+                <label class="switch-row" for="shuffleOptionsToggle">
+                  <input type="checkbox" id="shuffleOptionsToggle" checked />
+                  <span>Trộn thứ tự đáp án A–D</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="config-footer">
+            <div class="pool-preview">
+              Có <strong id="matchingPoolCount">221</strong> câu phù hợp bộ lọc hiện tại
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" id="startCustomSessionBtn">
+              Bắt đầu ngay →
+            </button>
+          </div>
+        </div>
+
+        <!-- CHAPTER BREAKDOWN & PROGRESS -->
+        <aside class="panel chapters-panel">
+          <div class="panel-header">
+            <h2>Tiến độ theo Chương</h2>
+            <button type="button" class="btn-link danger" id="resetProgressBtn">Đặt lại dữ liệu</button>
+          </div>
+
+          <div class="chapter-cards" id="chapterProgressList"></div>
+
+          <div class="info-callout">
+            <strong>Mẹo ôn thi PTIT hiệu quả</strong>
+            <ul>
+              <li>Làm hết <strong>99 câu LMS gốc</strong> để nắm chắc form đề điểm quá trình trên hệ thống.</li>
+              <li>Chú ý câu <strong>Q89 (WTO)</strong>: trên LMS đáp án chấm là <code>2006</code> (năm ký kết nạp 11/2006), còn chính thức là thành viên từ <code>11/1/2007</code>.</li>
+              <li>Ôn kỹ <strong>Chương nhập môn</strong> và <strong>ĐH IX–XIII</strong> trong phần mở rộng vì đề thi cuối kỳ thường hỏi thêm khái niệm Cương lĩnh, 3 bước đột phá, NQ 04/XII (27 biểu hiện), NQ 36/XII (kinh tế biển).</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VIEW 2: QUIZ / FLASHCARD SESSION -->
+    <section id="view-session" class="view">
+      <div class="session-topbar">
+        <button type="button" class="btn btn-ghost btn-sm" id="exitSessionBtn">← Thoát phiên</button>
+        <div class="session-meta">
+          <span class="session-mode-badge" id="sessionModeBadge">Luyện tập</span>
+          <span class="session-counter" id="sessionCounter">Câu 1 / 40</span>
+        </div>
+        <div class="session-right">
+          <div class="timer-pill" id="sessionTimer">00:00</div>
+          <button type="button" class="btn btn-primary btn-sm" id="finishSessionBtn">Nộp bài</button>
+        </div>
+      </div>
+
+      <div class="session-progress-bar">
+        <div class="session-progress-fill" id="sessionProgressFill" style="width: 0%"></div>
+      </div>
+
+      <div class="session-layout" id="quizLayout">
+        <div class="question-stage" id="questionStage"></div>
+
+        <aside class="palette-panel" id="palettePanel">
+          <div class="palette-head">
+            <h3>Bảng câu hỏi</h3>
+            <span class="palette-stats" id="paletteAnsweredStats">0 / 0 đã chọn</span>
+          </div>
+          <div class="palette-legend">
+            <span><i class="dot dot-current"></i> Đang xem</span>
+            <span><i class="dot dot-answered"></i> Đã chọn</span>
+            <span><i class="dot dot-flag"></i> Đánh dấu</span>
+          </div>
+          <div class="palette-grid" id="paletteGrid"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VIEW 3: RESULTS -->
+    <section id="view-result" class="view">
+      <div id="resultContainer"></div>
+    </section>
+
+    <!-- VIEW 4: QUESTION BANK EXPLORER -->
+    <section id="view-bank" class="view">
+      <div class="panel bank-toolbar">
+        <div class="bank-search-row">
+          <input type="search" id="bankSearchInput" aria-label="Tìm kiếm câu hỏi trong ngân hàng" class="search-input" placeholder="Tìm nhanh câu hỏi, năm, sự kiện (vd: Khoán 10, WTO, 1930, 27 biểu hiện, Pháo đài Láng)..." />
+          <label class="switch-row compact" for="bankShowAnswersToggle">
+            <input type="checkbox" id="bankShowAnswersToggle" checked />
+            <span>Hiện đáp án &amp; giải thích</span>
+          </label>
+        </div>
+        <div class="bank-filters-row">
+          <select id="bankChapterSelect" aria-label="Lọc theo chương" class="select-input">
+            <option value="all">Tất cả chương (221)</option>
+            <option value="intro">Chương nhập môn (15)</option>
+            <option value="ch1">Chương I · 1930–1945 (60)</option>
+            <option value="ch2">Chương II · 1945–1975 (65)</option>
+            <option value="ch3">Chương III &amp; Kết luận · 1975–nay (81)</option>
+          </select>
+          <select id="bankSourceSelect" aria-label="Lọc theo nguồn câu hỏi" class="select-input">
+            <option value="all">Mọi nguồn (LMS + Giáo trình + Video)</option>
+            <option value="lms">Chỉ câu LMS gốc (99)</option>
+            <option value="textbook">Chỉ Giáo trình PTIT (65)</option>
+            <option value="video">Chỉ Slide Video LMS (57)</option>
+            <option value="flagged">Chỉ câu đã đánh dấu ⭐</option>
+            <option value="wrong">Chỉ câu từng làm sai</option>
+          </select>
+          <div class="bank-count-pill" id="bankCountLabel">Hiển thị 221 câu</div>
+        </div>
+      </div>
+      <div class="bank-list" id="bankList"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>BAS1153 · Lịch sử Đảng Cộng sản Việt Nam — Biên soạn phục vụ sinh viên PTIT ôn thi</span>
+      <span>Nguồn: LMS PTIT (100 câu) · Giáo trình Khoa Cơ bản I (2021) · 11 Video bài giảng</span>
+    </div>
+  </footer>
+
+  <script src="./data/questions.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
